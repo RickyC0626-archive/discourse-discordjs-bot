@@ -1,4 +1,4 @@
-const { MessageEmbed } = require('discord.js');
+const { MessageEmbed, TextChannel } = require('discord.js');
 const config = require('../../config.json');
 const { truncate: truncateText } = require('../../util/text');
 
@@ -17,11 +17,13 @@ module.exports.execute = (bot, message, args) =>
     if(args.length === 0 || isNaN(args[0])) return message.channel.send("Please enter a valid amount of messages to create a transcript from.");
     if(args[0] > 100) return message.channel.send("The max amount of messages you can put on a transcript is 100");
 
-    let description = `Channel: <#${message.channel.id}>\n\n>>> `;
-    for(let i = 0; i < args[0]; i++)
+    let ch = message.channel;
+    let description = `Channel: <#${ch.id}>\n\n>>> `;
+
+    last(ch.messages.cache.array(), args[0]).forEach(msg =>
     {
-        description += `<@!${message.author.id}>: This is a super long message for the transcript ${i + 1}\n`;
-    }
+       description += `<@!${msg.author.id}>: ${msg.content}\n`;
+    });
 
     const transcriptEmbed = new MessageEmbed()
         .setColor("DARK_BLUE")
@@ -33,4 +35,11 @@ module.exports.execute = (bot, message, args) =>
         .setURL(config.discourseUrl);
 
     message.channel.send({ embed: transcriptEmbed }).catch(error => console.error(error));
+}
+
+let last = (arr, n) =>
+{
+    if(!arr) return void 0;
+    if(!n) return arr[arr.length - 1];
+    return arr.slice(Math.max(arr.length - n, 0));
 }
