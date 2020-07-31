@@ -1,4 +1,3 @@
-const { Collection } = require('discord.js');
 const { readdirSync } = require('fs');
 const { sep } = require('path');
 const { success, error, warning } = require('log-symbols');
@@ -47,15 +46,7 @@ loadCommands();
 
 bot.once('ready', () =>
 {
-    // bot.user.setActivity({ name: "over these humans", type: "WATCHING"}).then().catch(error => console.log(error));
-    bot.user.setPresence(
-    {
-        activity:
-        {
-            name: "A simulation of Earth",
-            type: "WATCHING"
-        }
-    }).catch(error => console.log(error));
+    bot.user.setActivity({ name: `${bot.config.prefix}help`, type: "PLAYING"}).catch(error => console.error(error));
     console.log("Discourse Integration Bot is ready");
 });
 

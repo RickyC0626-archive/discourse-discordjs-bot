@@ -6,7 +6,7 @@ module.exports.help =
     aliases: [],
     description: "Posts an embedded specified message in the specified channel",
     usage: "post <channel> <message>",
-    category: "misc"
+    category: "message"
 }
 
 module.exports.execute = (bot, message, args) =>

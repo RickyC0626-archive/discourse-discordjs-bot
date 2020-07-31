@@ -1,3 +1,4 @@
 {
-    "prefix": "/discourse "
+    "prefix": "/discourse ",
+    "discourseUrl": "http://localhost:3000"
 }
